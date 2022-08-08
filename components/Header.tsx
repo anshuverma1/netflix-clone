@@ -2,8 +2,10 @@ import { BellIcon, SearchIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 
 import { useEffect, useState } from 'react';
+import useAuth from '../hooks/useAuth';
 function Header() {
   const [isScolled, setIsScrolled] = useState(false);
+  const {logout} = useAuth()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,16 +42,17 @@ function Header() {
       </div>
 
       <div className="flex items-center space-x-4 text-sm font-light">
-        <SearchIcon className="hidden h-6 w-6 sm:inline" />
-        <p className="hidden lg:inline font-semibold">Children</p>
-        <BellIcon className="h-6 w-6" />
-        <Link href="/account">
+        <SearchIcon className="headerLink hidden h-6 w-6 sm:inline" />
+        <p className="headerLink hidden lg:inline font-semibold">Children</p>
+        <BellIcon className="headerLink h-6 w-6" />
+        {/* <Link href="/account"> */}
           <img
+            onClick={logout}
             src="https://rb.gy/g1pwyx"
             alt="Account Logo"
             className="cursor-pointer rounded"
           />
-        </Link>
+        {/* </Link> */}
       </div>
     </header>
   );
