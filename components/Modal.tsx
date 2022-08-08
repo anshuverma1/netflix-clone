@@ -10,9 +10,10 @@ import { FaPlay } from 'react-icons/fa'
 const Modal = () => {
     const [showModal, setShowModal] = useRecoilState(modalState)
     const [movie, setMovie] = useRecoilState(movieState)
-    const [trailer, setTrailer] = useState('')
+    const [trailer, setTrailer] = useState('1')
     const [genres, setGenres] = useState<Genre[]>([])
     const [muted, setMuted] = useState(true)
+    const matchScore = (movie?.vote_average * 10)
 
     async function fetchMovei() {
         const data = await fetch(`https://api.themoviedb.org/3/${movie?.media_type === 'tv' ? 'tv' : 'movie'
@@ -41,7 +42,7 @@ const Modal = () => {
     const handleClose = () => {
         setShowModal(false)
     }
-    
+
     return (
         <MuiModal open={showModal} onClose={handleClose} className='fixed !top-7 left-0 right-0 z-50 mx-auto w-full max-w-4xl
         overflow-hidden overflow-y-scroll rounded-md scrollbar-hide' >
@@ -51,15 +52,16 @@ const Modal = () => {
                     <XIcon className='h-6 w-6' />
                 </button>
 
-                <div className='relative pt-[56.25%] bg-black' >
-                    <ReactPlayer
-                        url={`https://www.youtube.com/watch?v=${trailer}`} // add fallback url
+                <div className={`relative ${trailer && 'pt-[56.25%]'} bg-black`} >
+                    { trailer ? <ReactPlayer
+                        url={`https://www.youtube.com/watch?v=${trailer}`}
                         width="100%"
                         height="100%"
                         style={{ position: 'absolute', top: '0', left: '0' }}
                         playing
                         muted={muted}
-                    />
+                    /> : <img className='' src="/404.jpg" alt="anshu" />
+                    }
 
                     <div className='absolute bottom-10 flex w-full items-center justify-between px-10'>
                         <div className='flex space-x-2'>
@@ -88,7 +90,7 @@ const Modal = () => {
                 <div className='flex space-x-16 rounded-b-md bg-[#181818] px-10 py-8'>
                     <div className='space-y-6 text-lg'>
                         <div className='flex items-center space-x-2 text-sm'>
-                            <p className='font-semibold text-green-400'>{movie?.vote_average * 10}% Match</p>
+                            <p className='font-semibold text-green-400'>{parseInt(matchScore)}% Match</p>
                             <p className='font-light'>{movie?.release_date || movie?.first_air_date}</p>
                             <div className='flex h-4 items-center justify-center rounded border border-white/40 px-1.5  text-sm'>
                                 HD

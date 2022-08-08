@@ -28,6 +28,8 @@ const Thumbnail = ({ movie }: Props) => {
                     }`}
                     className='rounded-sm object-cover md:rounded'
                     layout='fill'
+                    alt={movie.title}
+                    title={movie.title}
                 />
             </div>
 

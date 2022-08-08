@@ -50,8 +50,7 @@ import {
           } else {
             // Not logged in...
             setUser(null)
-            setLoading(true)
-            router.push('/login')
+            router.replace('/login')
           }
   
           setInitialLoading(false)
@@ -65,7 +64,7 @@ import {
       await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           setUser(userCredential.user)
-          router.push('/')
+          router.replace('/')
           setLoading(false)
         })
         .catch((error) => alert(error.message))
@@ -77,7 +76,7 @@ import {
       await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           setUser(userCredential.user)
-          router.push('/')
+          router.replace('/')
           setLoading(false)
         })
         .catch((error) => alert(error.message))

@@ -39,10 +39,9 @@ const Home = (props: Props) => {
   if(loading) return null // work on this
 
   return (
-    <div className={`relative h-screen bg-gradient-to-b lg:h-[140vh] ${showModal && '!h-screen overflow-hidden'}`}>
+    <div className={`relative h-screen bg-gradient-to-b lg:h-[140vh]`}>
       <Head>
         <title>Home - Netflix</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Header />

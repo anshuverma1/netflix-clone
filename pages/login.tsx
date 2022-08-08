@@ -1,3 +1,4 @@
+import { CircularProgress } from '@mui/material'
 import Head from 'next/head'
 import Image from 'next/image'
 import React, { useState } from 'react'
@@ -12,15 +13,15 @@ interface Inputs {
 const login = () => {
 
     const [login, setLogin] = useState(false)
-    const {signIn, signUp} = useAuth()
+    const { signIn, signUp, loading } = useAuth()
 
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
 
-    const onSubmit: SubmitHandler<Inputs> = async ({email, password}) => {
-        if(login){
+    const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
+        if (login) {
             await signIn(email, password)
         }
-        else{
+        else {
             await signUp(email, password)
         }
     }
@@ -30,7 +31,6 @@ const login = () => {
             md:justify-center md:bg-transparent'>
             <Head>
                 <title>Netflix</title>
-                <link rel="icon" href="/favicon.ico" />
             </Head>
             <Image
                 src="https://rb.gy/p2hphi"
@@ -63,9 +63,9 @@ const login = () => {
                         </p>}
                     </label>
                 </div>
-                <button className="w-full rounded bg-[#E50914] py-3 font-semibold"
+                <button className="w-full rounded bg-[#E50914] py-3 font-semibold h-14"
                     onClick={() => setLogin(true)} >
-                    Sign In
+                    {loading ? <CircularProgress  sx={{ color: 'white', }} /> : 'Sign In'}
                 </button>
                 <div className="text-[gray]">
                     New to Netflix?{' '}
