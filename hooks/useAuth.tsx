@@ -65,7 +65,6 @@ import {
         .then((userCredential) => {
           setUser(userCredential.user)
           router.replace('/')
-          setLoading(false)
         })
         .catch((error) => alert(error.message))
         .finally(() => setLoading(false))
@@ -77,7 +76,6 @@ import {
         .then((userCredential) => {
           setUser(userCredential.user)
           router.replace('/')
-          setLoading(false)
         })
         .catch((error) => alert(error.message))
         .finally(() => setLoading(false))
