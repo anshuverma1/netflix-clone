@@ -1,7 +1,7 @@
 import { CircularProgress } from '@mui/material'
 import Head from 'next/head'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import useAuth from '../hooks/useAuth'
 
@@ -13,7 +13,8 @@ interface Inputs {
 const login = () => {
 
     const [login, setLogin] = useState(false)
-    const { signIn, signUp, loading } = useAuth()
+    const { signIn, signUp } = useAuth()
+    const [loading, setLoading] = useState(false)
 
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
 
@@ -25,6 +26,13 @@ const login = () => {
             await signUp(email, password)
         }
     }
+
+    useEffect(() => {
+      return () => {
+        setLoading(false)
+      }
+    }, [])
+    
 
     return (
         <div className='relative flex h-screen w-screen flex-col bg-black md:items-center
@@ -64,7 +72,7 @@ const login = () => {
                     </label>
                 </div>
                 <button className="w-full rounded bg-[#E50914] py-3 font-semibold h-14"
-                    onClick={() => setLogin(true)} >
+                    onClick={() => {setLogin(true); setLoading(true)}} >
                     {loading ? <CircularProgress  sx={{ color: 'white', }} /> : 'Sign In'}
                 </button>
                 <div className="text-[gray]">
@@ -72,7 +80,7 @@ const login = () => {
                     <button
                         className="cursor-pointer text-white hover:underline"
                         type="submit"
-                        onClick={() => setLogin(false)}>
+                        onClick={() => {setLogin(false); setLoading(true)}}>
                         Sign up now
                     </button>
                 </div>
