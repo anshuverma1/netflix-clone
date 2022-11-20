@@ -47,10 +47,11 @@ import {
             // Logged in...
             setUser(user)
             setLoading(false)
+            router.replace('/home')
           } else {
             // Not logged in...
             setUser(null)
-            router.replace('/login')
+            router.replace('/')
           }
   
           setInitialLoading(false)
@@ -64,7 +65,7 @@ import {
       await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           setUser(userCredential.user)
-          router.replace('/')
+          router.replace('/home')
         })
         .catch((error) => alert(error.message))
         .finally(() => setLoading(false))
@@ -75,7 +76,7 @@ import {
       await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           setUser(userCredential.user)
-          router.replace('/')
+          router.replace('/home')
         })
         .catch((error) => alert(error.message))
         .finally(() => setLoading(false))
@@ -105,7 +106,7 @@ import {
   }
   
   // Let's only export the `useAuth` hook instead of the context.
-  // We only want to use the hook directly and never the context comopnent.
+  // We only want to use the hook directly and never the context component.
   export default function useAuth() {
     return useContext(AuthContext)
   }
