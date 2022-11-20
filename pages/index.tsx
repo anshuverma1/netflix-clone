@@ -1,100 +1,92 @@
+import { CircularProgress } from '@mui/material'
 import Head from 'next/head'
-import { useRecoilValue } from 'recoil'
-import { modalState } from '../atoms/modalAtom'
-import Banner from '../components/Banner'
-import Header from '../components/Header'
-import Modal from '../components/Modal'
-import Row from '../components/Row'
+import Image from 'next/image'
+import React, { useEffect, useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import useAuth from '../hooks/useAuth'
-import { Movie } from '../types'
-import requests from '../utils/requests'
 
-interface Props {
-  netflixOriginals: Movie[],
-  trendingNow: Movie[],
-  topRated: Movie[],
-  actionMovies: Movie[],
-  comedyMovies: Movie[],
-  horrorMovies: Movie[],
-  romanceMovies: Movie[],
-  documentaries: Movie[],
+interface Inputs {
+    email: string,
+    password: string,
 }
 
-const Home = (props: Props) => {
-  
-  const {
-    netflixOriginals,
-    trendingNow,
-    topRated,
-    actionMovies,
-    comedyMovies,
-    horrorMovies,
-    romanceMovies,
-    documentaries,
-  } = props
+const login = () => {
 
-  const {loading, logout} = useAuth()
-  const showModal = useRecoilValue(modalState)
+    const [login, setLogin] = useState(false)
+    const { signIn, signUp } = useAuth()
+    const [loading, setLoading] = useState(false)
 
-  if(loading) return null // work on this
+    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
 
-  return (
-    <div className={`relative h-screen bg-gradient-to-b lg:h-[140vh]`}>
-      <Head>
-        <title>Home - Netflix</title>
-      </Head>
-
-      <Header />
-      <main className='relative pl-4 pb-24 lg:space-y-24 lg:pl-16'>
-        <Banner netflixOriginals={netflixOriginals}/>
-      <section className='md:space-y-20'>
-        <Row title="Trending Now" movies={trendingNow} />
-          <Row title="Top Rated" movies={topRated} />
-          <Row title="Action Thrillers" movies={actionMovies} />
-          <Row title="Comedies" movies={comedyMovies} />
-          <Row title="Scary Movies" movies={horrorMovies} />
-          <Row title="Romance Movies" movies={romanceMovies} />
-          <Row title="Documentaries" movies={documentaries} />
-        </section>
-      </main>
-      {showModal && <Modal />}
-    </div>
-  )
-}
-
-export default Home
-
-export const getServerSideProps = async () => {
-  const [
-    netflixOriginals,
-    trendingNow,
-    topRated,
-    actionMovies,
-    comedyMovies,
-    horrorMovies,
-    romanceMovies,
-    documentaries,
-  ] = await Promise.all([
-    fetch(requests.fetchNetflixOriginals).then((res) => res.json()),
-    fetch(requests.fetchTrending).then((res) => res.json()),
-    fetch(requests.fetchTopRated).then((res) => res.json()),
-    fetch(requests.fetchActionMovies).then((res) => res.json()),
-    fetch(requests.fetchComedyMovies).then((res) => res.json()),
-    fetch(requests.fetchHorrorMovies).then((res) => res.json()),
-    fetch(requests.fetchRomanceMovies).then((res) => res.json()),
-    fetch(requests.fetchDocumentaries).then((res) => res.json()),
-  ])
-
-  return {
-    props: {
-      netflixOriginals: netflixOriginals.results,
-      trendingNow: trendingNow.results,
-      topRated: topRated.results,
-      actionMovies: actionMovies.results,
-      comedyMovies: comedyMovies.results,
-      horrorMovies: horrorMovies.results,
-      romanceMovies: romanceMovies.results,
-      documentaries: documentaries.results,
+    const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
+        if (login) {
+            await signIn(email, password)
+        }
+        else {
+            await signUp(email, password)
+        }
     }
-  }
+
+    useEffect(() => {
+      return () => {
+        setLoading(false)
+      }
+    }, [])
+    
+
+    return (
+        <div className='relative flex h-screen w-screen flex-col bg-black md:items-center
+            md:justify-center md:bg-transparent'>
+            <Head>
+                <title>Netflix</title>
+            </Head>
+            <Image
+                src="https://rb.gy/p2hphi"
+                layout="fill"
+                className="-z-10 !hidden opacity-60 sm:!inline"
+                objectFit="cover"
+            />
+            <img
+                src="https://rb.gy/ulxxee"
+                className="absolute left-4 top-4 cursor-pointer object-contain md:left-10 md:top-6"
+                width={150}
+                height={150}
+            />
+
+            <form onSubmit={handleSubmit(onSubmit)}
+                className='relative mt-24 space-y-8 bg-black/75 py-10 px-6 md:mt-0
+                md:max-w-md md:px-14' action="">
+                <h1 className="text-4xl font-semibold">Sign In</h1>
+                <div className='space-y-4'>
+                    <label className='inline-block w-full'>
+                        <input type="email" placeholder='Email' className='input' {...register("email", { required: true })} />
+                        {errors.email && <p className="p-1 text-[13px] font-semibold  text-orange-500">
+                            Please enter a valid email.
+                        </p>}
+                    </label>
+                    <label className='inline-block w-full'>
+                        <input type="password" placeholder='Password' className='input' {...register("password", { required: true })} />
+                        {errors.password && <p className="p-1 text-[13px] font-semibold  text-orange-500">
+                            Your password must contain between 4 and 60 characters.
+                        </p>}
+                    </label>
+                </div>
+                <button className="w-full rounded bg-[#E50914] py-3 font-semibold h-14"
+                    onClick={() => {setLogin(true); setLoading(true)}} >
+                    {loading ? <CircularProgress  sx={{ color: 'white', }} /> : 'Sign In'}
+                </button>
+                <div className="text-[gray]">
+                    New to Netflix?{' '}
+                    <button
+                        className="cursor-pointer text-white hover:underline"
+                        type="submit"
+                        onClick={() => {setLogin(false); setLoading(true)}}>
+                        Sign up now
+                    </button>
+                </div>
+            </form>
+        </div>
+    )
 }
+
+export default login
