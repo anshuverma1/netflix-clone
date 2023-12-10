@@ -53,14 +53,14 @@ const Modal = () => {
                 </button>
 
                 <div className={`relative ${trailer && 'pt-[56.25%]'} bg-black`} >
-                    { trailer ? <ReactPlayer
+                    {trailer ? <ReactPlayer
                         url={`https://www.youtube.com/watch?v=${trailer}`}
                         width="100%"
                         height="100%"
                         style={{ position: 'absolute', top: '0', left: '0' }}
                         playing
                         muted={muted}
-                    /> : <img className='' src="/404.jpg" alt="anshu" />
+                    /> : <img className='' src="/404.jpg" alt="video not found" />
                     }
 
                     <div className='absolute bottom-10 flex w-full items-center justify-between px-10'>

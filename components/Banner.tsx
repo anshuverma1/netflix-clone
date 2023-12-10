@@ -46,11 +46,16 @@ const Banner = ({ netflixOriginals }: Props) => {
 
       {/* Buttons */}
       <div className='flex space-x-3'>
-        <button className='bannerButton bg-white text-black'>
+        <button className='bannerButton bg-white text-black'
+          onClick={() => {
+            setCurrentMovie(movie)
+            setShowModal(true)
+          }}
+        >
           <FaPlay className='h-4 w-4 text-black md:h-6 md:w-6' /> Play
         </button>
-        <button className='bannerButton bg-[gray]/70' 
-          onClick={()=>{
+        <button className='bannerButton bg-[gray]/70'
+          onClick={() => {
             setCurrentMovie(movie)
             setShowModal(true)
           }}
