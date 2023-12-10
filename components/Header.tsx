@@ -43,17 +43,20 @@ function Header() {
       </div>
 
       <div className="flex items-center space-x-4 text-sm font-light">
-        <SearchIcon className="headerLink hidden h-6 w-6 sm:inline" />
+        {/* <SearchIcon className="headerLink hidden h-6 w-6 sm:inline" />
         <p className="headerLink hidden lg:inline font-semibold">Children</p>
-        <BellIcon className="headerLink h-6 w-6 " />
+        <BellIcon className="headerLink h-6 w-6 " /> */}
         <Image
-          onClick={logout}
           src="https://rb.gy/g1pwyx"
           alt="Account Logo"
           className="cursor-pointer rounded"
           height='35'
           width='35'
         />
+        <button onClick={logout}
+          className="headerLink lg:inline font-semibold">
+          Logout
+        </button>
       </div>
     </header>
   );
