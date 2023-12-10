@@ -14,27 +14,18 @@ interface Inputs {
 const login = () => {
 
     const [login, setLogin] = useState(false)
-    const { signIn, signUp } = useAuth()
-    const [loading, setLoading] = useState(false)
+    const { signIn, loading } = useAuth()
 
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
 
     const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
         if (login) {
-            setLoading(true)
             await signIn(email, password)
         }
         else {
-            await signUp(email, password)
+            alert('Something went wrong!, Please refresh the page and try again.')
         }
     }
-
-    useEffect(() => {
-        return () => {
-            setLoading(false)
-        }
-    }, [])
-
 
     return (
         <div className='relative flex h-screen w-screen flex-col bg-black md:items-center

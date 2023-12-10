@@ -11,30 +11,20 @@ interface Inputs {
     password: string,
 }
 
-const login = () => {
+const SignUpPage = () => {
 
-    const [login, setLogin] = useState(false)
-    const { signIn, signUp } = useAuth()
-    const [loading, setLoading] = useState(false)
+    const [createUser, setCreateUser] = useState(false)
+    const { signUp, loading } = useAuth()
 
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
 
     const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
-        if (login) {
-            await signIn(email, password)
-        }
-        else {
-            setLoading(true)
+        if (createUser) {
             await signUp(email, password)
+        } else {
+            alert('Something went wrong!, Please refresh the page and try again.')
         }
     }
-
-    useEffect(() => {
-        return () => {
-            setLoading(false)
-        }
-    }, [])
-
 
     return (
         <div className='relative flex h-screen w-screen flex-col bg-black md:items-center
@@ -75,7 +65,7 @@ const login = () => {
                     </label>
                 </div>
                 <button className="w-full rounded bg-[#E50914] py-3 font-semibold h-14"
-                    onClick={() => { setLogin(false) }}>
+                    onClick={() => { setCreateUser(true) }}>
                     {loading ? <CircularProgress sx={{ color: 'white', }} /> : 'Sign Up'}
                 </button>
                 <div className="text-[gray]">
@@ -90,4 +80,4 @@ const login = () => {
     )
 }
 
-export default login
+export default SignUpPage
