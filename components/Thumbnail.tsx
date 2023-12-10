@@ -14,8 +14,12 @@ const Thumbnail = ({ movie }: Props) => {
     const [showModal, setShowModal] = useRecoilState(modalState) // universal state
     const [currentMovie, setCurrentMovie] = useRecoilState(movieState) // universal state
 
+    const formatString = (str: string) => {
+        return str.length >= 30 ? str.substring(0, 30) + '...' : str
+    }
+
     return (
-        <>
+        <div>
             <div className='relative h-28 min-w-[180px] cursor-pointer 
         transition duration-200 ease-out md:h-36 md:min-w-[260px]
         md:hover:scale-105'
@@ -32,8 +36,9 @@ const Thumbnail = ({ movie }: Props) => {
                     title={movie.title}
                 />
             </div>
+            <span className='text-white hidden md:block lg:block'>{formatString(movie.title || movie.name)}</span>
 
-        </>
+        </div>
     )
 }
 
