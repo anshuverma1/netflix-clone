@@ -11,18 +11,17 @@ interface Inputs {
     password: string,
 }
 
-const login = () => {
+const SignUpPage = () => {
 
-    const [login, setLogin] = useState(false)
-    const { signIn, loading } = useAuth()
+    const [createUser, setCreateUser] = useState(false)
+    const { signUp, loading } = useAuth()
 
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
 
     const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
-        if (login) {
-            await signIn(email, password)
-        }
-        else {
+        if (createUser) {
+            await signUp(email, password)
+        } else {
             alert('Something went wrong!, Please refresh the page and try again.')
         }
     }
@@ -50,7 +49,7 @@ const login = () => {
             <form onSubmit={handleSubmit(onSubmit)}
                 className='relative mt-24 space-y-8 bg-black/75 py-10 px-6 md:mt-0
                 md:max-w-md md:px-14' action="">
-                <h1 className="text-4xl font-semibold">Sign In</h1>
+                <h1 className="text-4xl font-semibold">Sign Up</h1>
                 <div className='space-y-4'>
                     <label className='inline-block w-full'>
                         <input type="email" placeholder='Email' className='input' {...register("email", { required: true })} />
@@ -66,14 +65,14 @@ const login = () => {
                     </label>
                 </div>
                 <button className="w-full rounded bg-[#E50914] py-3 font-semibold h-14"
-                    onClick={() => { setLogin(true) }} >
-                    {loading ? <CircularProgress sx={{ color: 'white', }} /> : 'Sign In'}
+                    onClick={() => { setCreateUser(true) }}>
+                    {loading ? <CircularProgress sx={{ color: 'white', }} /> : 'Sign Up'}
                 </button>
                 <div className="text-[gray]">
-                    New to Netflix?{' '}
+                    Already have an account?{' '}
                     <Link
-                        href={'/signup'}>
-                        <span className='cursor-pointer text-white hover:underline '>Sign up now</span>
+                        href={'/'}>
+                        <span className="cursor-pointer text-white hover:underline">Sign In</span>
                     </Link>
                 </div>
             </form>
@@ -81,4 +80,4 @@ const login = () => {
     )
 }
 
-export default login
+export default SignUpPage
