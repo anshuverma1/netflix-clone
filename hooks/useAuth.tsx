@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           // Logged in...
           setUser(user)
           router.replace('/home')
-          setLoading(false)
+          // setLoading(false)
         } else {
           // Not logged in...
           setUser(null)
@@ -79,7 +79,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         router.replace('/home')
       })
       .catch((error) => { alert(error.message); setError(error.message) })
-      .finally(() => setLoading(false))
+      .finally(() => setTimeout(() => {
+        setLoading(false)
+      }, 500))
   }
 
   const logout = async () => {
