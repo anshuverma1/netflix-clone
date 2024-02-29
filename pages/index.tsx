@@ -50,6 +50,7 @@ const login = () => {
             <form onSubmit={handleSubmit(onSubmit)}
                 className='relative mt-24 space-y-8 bg-black/75 py-10 px-6 md:mt-0
                 md:max-w-md md:px-14' action="">
+                <p>Test Credentials : Username: test@gmail.com Password: 123456789</p>
                 <h1 className="text-4xl font-semibold">Sign In</h1>
                 <div className='space-y-4'>
                     <label className='inline-block w-full'>

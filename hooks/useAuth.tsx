@@ -46,8 +46,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         if (user) {
           // Logged in...
           setUser(user)
-          setLoading(false)
           router.replace('/home')
+          setLoading(false)
         } else {
           // Not logged in...
           setUser(null)
